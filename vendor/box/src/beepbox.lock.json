@@ -1,0 +1,28 @@
+{
+ "upstream": "https://github.com/johnnesky/beepbox",
+ "license": "MIT",
+ "version": "4.2.2",
+ "base_ref": "v4.2.2 + 5 commits (master)",
+ "commit": "355e510099d230d066d95074c16d748d59fe054c",
+ "tarball": "https://codeload.github.com/johnnesky/beepbox/tar.gz/355e510099d230d066d95074c16d748d59fe054c",
+ "tarball_sha256": "a06161af4d7c28f1e6fd404c4b5388a45900f364b8e77e649dfa854e1ae119e1",
+ "package_lock_sha256": "3bb9866c05537544546a18f2914c6a402717cc5553a546ad8159319b3937570a",
+ "node": "24.x",
+ "build": "npm ci; npm run build-synth; npm run build-editor (after applying patches/*.patch with git am)",
+ "patches": [
+  "0001-Offline-build-bundle-the-MP3-encoder-drop-the-servic.patch",
+  "0002-Shell-hooks-amerika-editor-ready-event-amerikaSaveBl.patch"
+ ],
+ "built": {
+  "app/beepbox_editor.min.js": "cda5e178aa1f5391e9fa38ca1cb33eab8a26baf7b47f8ee33012871b49cf50ef",
+  "app/beepbox_synth.min.js": "579a472be1bbcaef32c415f1151f5b8b9b189876b33d780b522d8ae1a15ad666"
+ },
+ "vendored": {
+  "lamejs": {
+   "version": "1.2.0",
+   "license": "LGPL-3.0",
+   "tgz_sha256": "6c872a4c86d4deff909f13fe36023f501e32dbabb98b0ec06548e4ab8d078b56",
+   "file": "app/amerika/vendor/lame.min.js"
+  }
+ }
+}

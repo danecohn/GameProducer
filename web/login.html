@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Sign in · Game Producer</title>
+  <link rel="icon" href="/assets/logo.png" type="image/png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="page">
+    <div class="hero"><img class="mark" src="/assets/logo.png" alt="AltStack"><h1>Game Producer</h1><p>This studio is private. Enter the access token to sign in.</p></div>
+    <form id="f" class="card stack" style="max-width:420px;margin:0 auto">
+      <div><label class="lbl" for="t">Access token</label><input id="t" class="field mono" type="password" autocomplete="current-password" autofocus></div>
+      <div id="e" class="err" hidden role="alert"></div>
+      <button class="btn primary big" type="submit">Sign in</button>
+    </form>
+  </div>
+  <script src="/login.js"></script>
+</body>
+</html>

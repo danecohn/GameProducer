@@ -1,0 +1,17 @@
+{
+  "name": "altstack-game-producer",
+  "version": "0.1.0",
+  "description": "AltStack Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive AltStack Engine, Render, Sprite and Box.",
+  "license": "GPL-3.0-only",
+  "private": true,
+  "bin": { "game-producer": "bin/game-producer.js" },
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node bin/game-producer.js",
+    "demo": "GP_PROVIDER=mock node bin/game-producer.js",
+    "test": "node scripts/test.js",
+    "doctor": "node bin/game-producer.js doctor",
+    "vendor": "scripts/sync-vendor.sh",
+    "gen:render-tools": "python3 scripts/gen-render-tools.py"
+  }
+}
