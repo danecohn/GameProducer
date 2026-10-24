@@ -94,7 +94,9 @@ jobs:
           merge-multiple: true
       - name: Publish the six verified installers
         run: |
-          mkdir -p out && cp dl/AltStackGameProducer-* out/
+          # upload-artifact keeps the folder layout (artifacts/..., release/smoke-*.png), so look for the installers wherever they landed
+          mkdir -p out && find dl -type f -name 'AltStackGameProducer-*' -exec cp {} out/ \;
+          ls -la out
           test "$(ls out/*.sha256 | wc -l)" -eq 6
           test "$(ls out | grep -v '\.sha256$' | wc -l)" -eq 6
           for t in mac-arm64.dmg mac-x64.dmg win-x64.exe win-arm64.exe linux-x64.AppImage linux-arm64.AppImage; do test -s out/AltStackGameProducer-$t; done
