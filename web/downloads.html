@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Download · Game Producer</title>
+  <meta name="description" content="Download AltStack Game Producer for macOS, Windows and Linux.">
+  <link rel="icon" href="/assets/logo.png" type="image/png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; margin-top: 18px; }
+    .dl { display: flex; flex-direction: column; gap: 6px; }
+    .dl h3 { font-size: 15px; } .dl .meta { color: var(--ink-2); font-size: 12.5px; flex: 1; }
+    .dl.rec { border: 2px solid var(--brand); }
+    .os-title { margin: 28px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 700; }
+    code { background: var(--sunk); padding: 1px 5px; border-radius: 5px; }
+    pre { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <div class="menubar"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>Game Producer</span></a><span class="grow"></span><a href="https://github.com/danecohn/GameProducer">GitHub</a></div>
+  <div class="page">
+    <div class="hero"><img class="mark" src="/assets/logo.png" alt="AltStack"><h1>Get Game Producer</h1><p>The full studio on your own computer: Forge can run Godot and Molder can run Blender right where your game lives. Your API key never leaves your machine.</p></div>
+    <div id="status" class="callout" hidden></div>
+    <div id="grid"></div>
+    <div class="card" style="margin-top:22px">
+      <h2>Opening it the first time</h2>
+      <p class="muted"><b>macOS.</b> Open the downloaded <code>.dmg</code> and drag the app to Applications. Builds that are not yet notarized by Apple are held by Gatekeeper after a download. Open <b>System Settings → Privacy &amp; Security</b>, scroll down, and choose <b>Open Anyway</b> for AltStack Game Producer. If macOS says the app is damaged, clear the download flag once in Terminal:</p>
+      <pre>xattr -dr com.apple.quarantine "/Applications/AltStack Game Producer.app"</pre>
+      <p class="muted"><b>Windows.</b> If SmartScreen appears, choose <b>More info → Run anyway</b>. <b>Linux.</b> <code>chmod +x AltStackGameProducer-linux-*.AppImage</code>, then run it.</p>
+      <p class="muted">Verify a download: <code>shasum -a 256 -c AltStackGameProducer-….sha256</code> (the checksum file is linked on each card).</p>
+    </div>
+  </div>
+  <script src="/downloads.js"></script>
+</body>
+</html>

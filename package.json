@@ -4,14 +4,85 @@
   "description": "AltStack Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive AltStack Engine, Render, Sprite and Box.",
   "license": "GPL-3.0-only",
   "private": true,
-  "bin": { "game-producer": "bin/game-producer.js" },
-  "engines": { "node": ">=20" },
+  "bin": {
+    "game-producer": "bin/game-producer.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node bin/game-producer.js",
     "demo": "GP_PROVIDER=mock node bin/game-producer.js",
     "test": "node scripts/test.js",
     "doctor": "node bin/game-producer.js doctor",
     "vendor": "scripts/sync-vendor.sh",
-    "gen:render-tools": "python3 scripts/gen-render-tools.py"
+    "gen:render-tools": "python3 scripts/gen-render-tools.py",
+    "desktop": "electron .",
+    "package": "electron-builder --publish never"
+  },
+  "main": "desktop/main.js",
+  "author": {
+    "name": "AltStack LLC"
+  },
+  "homepage": "https://github.com/danecohn/GameProducer",
+  "productName": "AltStack Game Producer",
+  "devDependencies": {
+    "electron": "44.9.3",
+    "electron-builder": "26.17.0"
+  },
+  "build": {
+    "appId": "org.altstack.gameproducer",
+    "productName": "AltStack Game Producer",
+    "copyright": "AltStack LLC, GPL-3.0",
+    "directories": {
+      "output": "release"
+    },
+    "asar": false,
+    "files": [
+      "desktop/**",
+      "src/**",
+      "studio/**",
+      "vendor/**",
+      "web/**",
+      "assets/**",
+      "bin/**",
+      "package.json",
+      "LICENSE",
+      "NOTICE.md",
+      "README.md",
+      "!release/**"
+    ],
+    "artifactName": "AltStackGameProducer-${os}-${arch}.${ext}",
+    "afterPack": "scripts/adhoc-sign.js",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/logo.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "assets/logo.icns",
+      "category": "public.app-category.games",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "assets/logo.png",
+      "category": "Game",
+      "maintainer": "AltStack LLC"
+    }
   }
 }

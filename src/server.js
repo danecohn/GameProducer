@@ -73,7 +73,7 @@ function createApp(opts) {
     if (fs.statSync(file).isDirectory()) return fail(res, 404, 'not found');
     const mime = mimeOf(file);
     const headers = { 'content-type': mime, 'cache-control': rel === 'index.html' ? 'no-store' : 'no-cache', ...SECURITY_HEADERS };
-    if (rel === 'index.html' || rel === 'login.html') headers['content-security-policy'] = PAGE_CSP;
+    if (/^(index|login|downloads)\.html$/.test(rel)) headers['content-security-policy'] = PAGE_CSP;
     if (rel === 'index.html' && !hosted) headers['set-cookie'] = auth.issueLocal(req);
     res.writeHead(200, headers);
     fs.createReadStream(file).pipe(res);
@@ -140,9 +140,36 @@ function createApp(opts) {
     return list;
   }
 
+  // ------------------------------------------------------------ public release metadata (no secrets: it mirrors GitHub's public API)
+  let releaseCache = null;
+  const ASSET = /^AltStackGameProducer-(mac|win|linux)-(arm64|x64)\.(dmg|exe|AppImage)$/;
+  async function latestRelease() {
+    if (releaseCache && Date.now() - releaseCache.at < 600000) return releaseCache.value;
+    const url = process.env.GP_RELEASES_URL || 'https://api.github.com/repos/' + (process.env.GP_RELEASES_REPO || 'danecohn/GameProducer') + '/releases/latest';
+    let value = { published: false, assets: {} };
+    try {
+      const res = await (opts.fetchImpl || fetch)(url, { headers: { accept: 'application/vnd.github+json', 'user-agent': 'altstack-game-producer' }, signal: AbortSignal.timeout(8000) });
+      if (res.ok) {
+        const rel = await res.json();
+        const byName = new Map((rel.assets || []).map((a) => [a.name, a]));
+        const assets = {};
+        for (const a of rel.assets || []) {
+          const m = ASSET.exec(a.name);
+          if (!m || !byName.has(a.name + '.sha256')) continue;   // an installer counts as published only together with its checksum
+          assets[m[1] + '-' + m[2]] = { name: a.name, url: a.browser_download_url, bytes: a.size, sha256_url: byName.get(a.name + '.sha256').browser_download_url };
+        }
+        value = { published: Object.keys(assets).length > 0, version: String(rel.tag_name || '').replace(/^v/, ''), tag: rel.tag_name, released: rel.published_at, notes_url: rel.html_url, assets };
+      }
+    } catch (e) { /* offline or rate limited: report nothing published rather than failing */ }
+    releaseCache = { at: Date.now(), value };
+    return value;
+  }
+
   // ------------------------------------------------------------ routes
   const routes = [];
   const route = (method, re, handler, o) => routes.push({ method, re, handler, public: !!(o && o.public) });
+
+  route('GET', /^\/api\/downloads$/, async (req, res) => send(res, 200, await latestRelease()), { public: true });
 
   route('GET', /^\/api\/status$/, async (req, res) => {
     const keyInfo = llm.describe();
@@ -296,8 +323,9 @@ function createApp(opts) {
       return r.ok ? send(res, 200, { ok: true }, { 'set-cookie': r.cookie }) : fail(res, r.status, r.error);
     }
     if (hosted && p === '/api/logout' && req.method === 'POST') return send(res, 200, { ok: true }, { 'set-cookie': auth.cookie(req, '', 0) });
+    if (p === '/api/downloads' && req.method === 'GET') return routes.find((r) => r.re.test(p)).handler(req, res);
     if (hosted && !auth.authed(req)) {
-      if (p === '/login.html' || p === '/login.js' || p === '/style.css' || p.startsWith('/assets/')) return serveStatic(req, res, p);
+      if (p === '/login.html' || p === '/login.js' || p === '/downloads.html' || p === '/downloads.js' || p === '/style.css' || p.startsWith('/assets/')) return serveStatic(req, res, p);
       if (p.startsWith('/api/')) return fail(res, 401, 'login required', 'login');
       res.writeHead(302, { location: '/login.html', ...SECURITY_HEADERS });
       return res.end();

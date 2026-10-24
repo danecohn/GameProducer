@@ -1,0 +1,106 @@
+name: Release desktop apps
+# Builds the six installers on native runners, launches each PACKAGED app to prove it boots and renders,
+# and publishes a release only when all six passed. Push a tag like v0.1.0, or run it by hand.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish a GitHub release when every platform passes'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: game-producer-release
+  cancel-in-progress: false
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: sudo apt-get update && sudo apt-get install -y unzip
+      - run: node scripts/test.js
+  desktop:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { target: macos-arm64,   runner: macos-15,        args: '--mac --arm64' }
+          - { target: macos-x64,     runner: macos-15-intel,  args: '--mac --x64' }
+          - { target: windows-x64,   runner: windows-2025,    args: '--win --x64' }
+          - { target: windows-arm64, runner: windows-11-arm,  args: '--win --arm64' }
+          - { target: linux-x64,     runner: ubuntu-24.04,    args: '--linux --x64' }
+          - { target: linux-arm64,   runner: ubuntu-24.04-arm, args: '--linux --arm64' }
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm ci
+      - name: Package the installer
+        shell: bash
+        env:
+          # macOS: with an Apple Developer ID in the repository secrets the app is signed and notarized.
+          # Without them it is ad-hoc signed, and macOS asks the user to approve it once after download.
+          CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ secrets.MAC_CSC_LINK != '' && 'true' || 'false' }}
+        run: |
+          EXTRA=""
+          if [ -n "$CSC_LINK" ] && [ -n "$APPLE_ID" ] && [[ "${{ matrix.target }}" == macos-* ]]; then EXTRA="-c.mac.notarize=true"; fi
+          npx electron-builder ${{ matrix.args }} --publish never $EXTRA
+      - name: Launch the packaged app (boots, serves its API, renders the UI)
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then sudo apt-get update && sudo apt-get install -y xvfb; fi
+          node scripts/smoke-packaged.js
+      - name: Checksums
+        shell: bash
+        run: node scripts/checksums.js
+      - uses: actions/upload-artifact@v7
+        with:
+          name: GameProducer-${{ matrix.target }}
+          path: |
+            artifacts/AltStackGameProducer-*
+            release/smoke-*.png
+          if-no-files-found: error
+  publish:
+    needs: desktop
+    if: startsWith(github.ref, 'refs/tags/v') || inputs.publish
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MAC_SIGNED: ${{ secrets.MAC_CSC_LINK != '' && secrets.APPLE_ID != '' && 'yes' || 'no' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: GameProducer-*
+          path: dl
+          merge-multiple: true
+      - name: Publish the six verified installers
+        run: |
+          mkdir -p out && cp dl/AltStackGameProducer-* out/
+          test "$(ls out/*.sha256 | wc -l)" -eq 6
+          test "$(ls out | grep -v '\.sha256$' | wc -l)" -eq 6
+          for t in mac-arm64.dmg mac-x64.dmg win-x64.exe win-arm64.exe linux-x64.AppImage linux-arm64.AppImage; do test -s out/AltStackGameProducer-$t; done
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="${GITHUB_REF_NAME}"; case "$TAG" in v*) ;; *) TAG="v$VERSION" ;; esac
+          {
+            echo "AltStack Game Producer $VERSION. Every installer below was launched on its own platform before this release was published."
+            echo
+            if [ "$MAC_SIGNED" = "yes" ]; then echo "macOS builds are signed with a Developer ID and notarized by Apple."; else echo "macOS builds are not notarized yet: after downloading, approve the app once in System Settings > Privacy & Security > Open Anyway (or run: xattr -dr com.apple.quarantine \"/Applications/AltStack Game Producer.app\")."; fi
+            echo "Verify a download with the .sha256 file next to it."
+          } > notes.md
+          gh release create "$TAG" out/* --target "$GITHUB_SHA" --title "AltStack Game Producer $VERSION" --notes-file notes.md

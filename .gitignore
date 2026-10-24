@@ -6,3 +6,5 @@ node_modules/
 # runtime data lives outside the repo (GP_HOME, default ~/AltStack/GameProducer); these catch local overrides
 /data/
 /tmp/
+release/
+artifacts/

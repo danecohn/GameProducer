@@ -25,6 +25,10 @@ node bin/game-producer.js install blender   # official build, SHA-256 verified (
 
 Open the page it prints, plug in your key, describe a game. Palette (Sprite) and Noteie (Box) are built in. Forge needs Godot and Molder needs Blender; without them the agents report the blocker honestly and keep working on what they can (Settings has one-click install buttons).
 
+## Desktop app
+
+`npm run package` builds the Electron app (the same server and UI in a native window) for the platform you run it on; `.github/workflows/release.yml` builds all six (macOS Apple silicon and Intel, Windows x64 and Arm, Linux x64 and Arm) on native runners, **launches each packaged app**, and only then publishes the release. The site's `/downloads.html` lists exactly the installers that have a published checksum. macOS: without an Apple Developer ID the app is ad-hoc signed and must be approved once after download; add the signing secrets listed in [docs/DEPLOY.md](docs/DEPLOY.md) and the same workflow signs and notarizes it.
+
 ## How a game gets made
 
 1. You describe the game. Director may ask one question at a time, with options and a recommendation.

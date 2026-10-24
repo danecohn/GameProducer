@@ -6,3 +6,6 @@ tmp
 .env*
 test
 docs
+release
+desktop
+assets

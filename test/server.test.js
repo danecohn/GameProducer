@@ -171,3 +171,26 @@ test('a key set by the server environment cannot be changed from the browser', a
     assert.equal((await s.api('GET', '/api/status')).json.key.source, 'env');
   } finally { delete process.env.GP_PROVIDER; delete process.env.GP_API_KEY; }
 });
+
+test('downloads: only installers that have a checksum are offered, and the page is public even when hosted', async () => {
+  const rel = { tag_name: 'v0.1.0', published_at: '2026-10-24T00:00:00Z', html_url: 'https://github.com/x/y/releases/tag/v0.1.0', assets: [
+    { name: 'AltStackGameProducer-mac-arm64.dmg', size: 130000000, browser_download_url: 'https://dl/mac-arm64.dmg' }, { name: 'AltStackGameProducer-mac-arm64.dmg.sha256', size: 90, browser_download_url: 'https://dl/mac-arm64.dmg.sha256' },
+    { name: 'AltStackGameProducer-win-x64.exe', size: 90000000, browser_download_url: 'https://dl/win-x64.exe' },   // no checksum: must not be offered
+    { name: 'latest-mac.yml', size: 5, browser_download_url: 'https://dl/yml' } ] };
+  const a = createApp({ mode: { host: '127.0.0.1', port: 0, hosted: true }, accessToken: 'tok-' + 'x'.repeat(20), provider: mock.create(), fetchImpl: async () => ({ ok: true, status: 200, json: async () => rel }) });
+  await new Promise((r) => a.server.listen(0, '127.0.0.1', r)); a.port = a.server.address().port;
+  try {
+    const none = await request(a, 'GET', '/api/status', { headers: { host: 'x.example' } });
+    assert.equal(none.status, 401);
+    const r = await request(a, 'GET', '/api/downloads', { headers: { host: 'x.example' } });
+    assert.equal(r.status, 200); assert.equal(r.json.published, true); assert.equal(r.json.version, '0.1.0');
+    assert.deepEqual(Object.keys(r.json.assets), ['mac-arm64']);
+    assert.equal(r.json.assets['mac-arm64'].sha256_url, 'https://dl/mac-arm64.dmg.sha256');
+    const page = await request(a, 'GET', '/downloads.html', { headers: { host: 'x.example' } });
+    assert.equal(page.status, 200); assert.match(page.text, /Get Game Producer/); assert.match(page.headers['content-security-policy'], /script-src 'self'/);
+    assert.equal((await request(a, 'GET', '/index.html', { headers: { host: 'x.example' } })).status, 302);
+  } finally { await a.close(); }
+  const offline = createApp({ mode: { host: '127.0.0.1', port: 0, hosted: false }, provider: mock.create(), fetchImpl: async () => { throw new Error('offline'); } });
+  await new Promise((r) => offline.server.listen(0, '127.0.0.1', r)); offline.port = offline.server.address().port;
+  try { assert.deepEqual((await request(offline, 'GET', '/api/downloads', { headers: { host: 'localhost:' + offline.port } })).json, { published: false, assets: {} }); } finally { await offline.close(); }
+});
