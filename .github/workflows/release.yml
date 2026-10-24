@@ -57,6 +57,9 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_IDENTITY_AUTO_DISCOVERY: ${{ secrets.MAC_CSC_LINK != '' && 'true' || 'false' }}
         run: |
+          # An absent secret arrives as an EMPTY variable, and electron-builder reads an empty CSC_LINK as "load a certificate from this path".
+          for v in CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID; do if [ -z "${!v}" ]; then unset "$v"; fi; done
+          if [ -z "$CSC_LINK" ]; then export CSC_IDENTITY_AUTO_DISCOVERY=false; fi
           EXTRA=""
           if [ -n "$CSC_LINK" ] && [ -n "$APPLE_ID" ] && [[ "${{ matrix.target }}" == macos-* ]]; then EXTRA="-c.mac.notarize=true"; fi
           npx electron-builder ${{ matrix.args }} --publish never $EXTRA
