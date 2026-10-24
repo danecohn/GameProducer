@@ -1,6 +1,6 @@
 {
   "name": "altstack-game-producer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "AltStack Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive AltStack Engine, Render, Sprite and Box.",
   "license": "GPL-3.0-only",
   "private": true,

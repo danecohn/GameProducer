@@ -31,6 +31,8 @@ if (process.platform === 'linux') { args.unshift('--no-sandbox', '--disable-gpu'
 console.log('running ' + [cmd, ...args].join(' '));
 const r = spawnSync(cmd, args, { encoding: 'utf8', timeout: 120000, env: { ...process.env, GP_HOME: fs.mkdtempSync(path.join(require('os').tmpdir(), 'gp-smoke-')) } });
 process.stdout.write(r.stdout || ''); process.stderr.write(r.stderr || '');
-if (r.status !== 0) { console.error('packaged app exited with ' + r.status + (r.signal ? ' (' + r.signal + ')' : '')); process.exit(1); }
-if (!fs.existsSync(shot) || fs.statSync(shot).size < 2000) { console.error('no screenshot was written'); process.exit(1); }
+const tail = (t) => String(t || '').trim().split('\n').slice(-3).join(' | ').replace(/[\r%]/g, ' ').slice(0, 400);
+if (r.error) { console.log('::error title=Packaged app did not start::' + r.error.message); process.exit(1); }
+if (r.status !== 0) { console.error('packaged app exited with ' + r.status + (r.signal ? ' (' + r.signal + ')' : '')); console.log('::error title=Packaged app failed its launch test::exit ' + r.status + (r.signal ? ' signal ' + r.signal : '') + ' :: ' + tail(r.stderr || r.stdout)); process.exit(1); }
+if (!fs.existsSync(shot) || fs.statSync(shot).size < 2000) { console.error('no screenshot was written'); console.log('::error title=Packaged app wrote no screenshot::' + tail(r.stderr || r.stdout)); process.exit(1); }
 console.log('PACKAGED SMOKE OK ' + shot + ' (' + fs.statSync(shot).size + ' bytes)');

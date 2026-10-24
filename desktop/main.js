@@ -12,6 +12,7 @@ if (process.platform === 'darwin') {
 
 const smokeIdx = process.argv.indexOf('--smoke-test');
 const smokeOut = smokeIdx >= 0 ? process.argv[smokeIdx + 1] : null;
+if (smokeOut) app.disableHardwareAcceleration();   // CI machines have no GPU; a hidden window cannot be captured through one
 if (smokeOut) process.env.GP_HOME = process.env.GP_HOME || fs.mkdtempSync(path.join(require('os').tmpdir(), 'gp-smoke-'));
 
 let server = null;
