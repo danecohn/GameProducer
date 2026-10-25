@@ -26,7 +26,7 @@ export function renderStudio(root, { goHome, openSettings }) {
     const waiting = S.tl.pending.size;
     const busy = S.running.director || S.running.sking || Object.values(S.statuses).some((s) => s && s.status === 'working');
     fill(menubar, 
-      h('button', { class: 'brand', onclick: goHome, 'aria-label': 'All games' }, h('img', { src: '/assets/logo.png', alt: '' }), h('span', null, 'Game Producer')),
+      h('button', { class: 'brand', onclick: goHome, 'aria-label': 'All games' }, h('img', { src: '/assets/logo.png', alt: '' }), h('span', null, 'GameProducer', h('small', {class:'maker'}, 'ARTEMIS SOFTWORKS'))),
       h('span', { class: 'faint' }, '/'),
       h('button', { class: 'project-name btn ghost small', title: 'Rename this game', onclick: renameProject }, S.project.name),
       h('span', { class: 'grow' }),

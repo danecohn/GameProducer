@@ -198,7 +198,9 @@ func _apply_project_settings() -> int:
 		ProjectSettings.set_setting("application/config/description", recipe["description"])
 	var v := Engine.get_version_info()
 	ProjectSettings.set_setting("application/config/features", PackedStringArray(["%d.%d" % [v["major"], v["minor"]]]))
-	if FileAccess.file_exists("res://icon.svg"):
+	if FileAccess.file_exists("res://icon.png"):
+		ProjectSettings.set_setting("application/config/icon", "res://icon.png")
+	elif FileAccess.file_exists("res://icon.svg"):
 		ProjectSettings.set_setting("application/config/icon", "res://icon.svg")
 	var win: Dictionary = recipe.get("window", {})
 	ProjectSettings.set_setting("display/window/size/viewport_width", int(win.get("width", 1280 if is_3d else 1152)))

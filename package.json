@@ -1,6 +1,6 @@
 {
   "name": "altstack-game-producer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "AltStack Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive AltStack Engine, Render, Sprite and Box.",
   "license": "GPL-3.0-only",
   "private": true,
@@ -31,7 +31,7 @@
   "build": {
     "appId": "org.altstack.gameproducer",
     "productName": "AltStack Game Producer",
-    "copyright": "Copyright © 2026 Artemis Softworks LLC",
+    "copyright": "Copyright \u00a9 2026 Artemis Softworks LLC",
     "directories": {
       "output": "release"
     },
