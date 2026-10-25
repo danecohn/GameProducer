@@ -26,7 +26,6 @@ RUN GP_HOME=/opt/altstack node bin/game-producer.js install godot \
 
 ENV GP_HOME=/data NODE_ENV=production GP_HOST=0.0.0.0
 USER producer
-VOLUME /data
 EXPOSE 8080
 # GP_ACCESS_TOKEN (required), GP_PROVIDER + GP_API_KEY (the one key) are set as service variables.
 CMD ["sh", "-c", "GP_PORT=${PORT:-8080} node bin/game-producer.js start --no-open"]
