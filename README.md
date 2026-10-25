@@ -1,5 +1,14 @@
 # AltStack Game Producer
 
+<!-- artemis-publisher:start -->
+<img src="brand/artemis/artemis-wordmark.svg" alt="Artemis Softworks LLC" width="340">
+
+**A product of Artemis Softworks LLC.** Founded by **Demetria Althea Cohn**.
+
+Companion software for macOS, thoughtfully available for Windows and Linux. See the [Artemis identity and design system](brand/artemis/BRAND.md). Platform availability varies by product and release.
+<!-- artemis-publisher:end -->
+
+
 An agentic game studio in one app. **You are the Producer.** You describe the game; **Director** plans it, contracts a team of specialist agents, reviews what comes back and checks in with you; the team builds the game with the four AltStack tools, bundled together.
 
 | Agent | Role | Drives |

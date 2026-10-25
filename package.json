@@ -21,9 +21,7 @@
     "package": "electron-builder --publish never"
   },
   "main": "desktop/main.js",
-  "author": {
-    "name": "AltStack LLC"
-  },
+  "author": "Artemis Softworks LLC",
   "homepage": "https://github.com/danecohn/GameProducer",
   "productName": "AltStack Game Producer",
   "devDependencies": {
@@ -33,7 +31,7 @@
   "build": {
     "appId": "org.altstack.gameproducer",
     "productName": "AltStack Game Producer",
-    "copyright": "AltStack LLC, GPL-3.0",
+    "copyright": "Copyright © 2026 Artemis Softworks LLC",
     "directories": {
       "output": "release"
     },
@@ -82,7 +80,7 @@
       ],
       "icon": "assets/logo.png",
       "category": "Game",
-      "maintainer": "AltStack LLC"
+      "maintainer": "Artemis Softworks LLC"
     }
   }
 }

@@ -260,3 +260,8 @@ label.lbl { display: block; font-size: 12px; font-weight: 600; color: var(--ink-
   .transcript { padding: 14px 12px 6px; }
   .toolline { padding-left: 4px; }
 }
+
+/* Artemis Softworks LLC · Moonrise */
+:root{--bg:#f5f0e6;--bg-2:#e8ece3;--panel:#fffdf6;--panel-2:#f2f3e9;--ink:#273941;--ink-2:#5e7577;--line:#c5cec5;--brand:#526e7b;--brand-soft:#e0e9df;--brand-deep:#365660;--link:#526e7b;--menubar:linear-gradient(#fffaf0,#dce5df)}:root[data-theme="dark"]{--bg:#14252f;--bg-2:#192e38;--panel:#203640;--ink:#eef2e9;--ink-2:#b0c0bb;--line:#3b545a;--brand:#a1c1c1;--brand-soft:#29434a;--brand-deep:#c5d8d3;--link:#a1c1c1;--menubar:linear-gradient(#29434a,#192e38)}
+
+:root{--sunk:#e6e9dc}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14252f;--bg-2:#192e38;--panel:#203640;--panel-2:#29434a;--sunk:#192e38;--ink:#eef2e9;--ink-2:#b0c0bb;--line:#3b545a;--brand:#a1c1c1;--brand-soft:#29434a;--brand-deep:#c5d8d3;--link:#a1c1c1;--menubar:linear-gradient(#29434a,#192e38)}}:root[data-theme="dark"]{--sunk:#192e38;--panel-2:#29434a}
