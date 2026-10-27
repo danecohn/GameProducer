@@ -80,6 +80,7 @@ function walk(dir, opts) {
 function mimeOf(file) {
   const ext = path.extname(file).toLowerCase();
   return ({
+    '.woff2':'font/woff2','.ttf':'font/ttf','.ico':'image/x-icon',
     '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml',
     '.wav': 'audio/wav', '.ogg': 'audio/ogg', '.mp3': 'audio/mpeg', '.json': 'application/json', '.md': 'text/markdown; charset=utf-8',
     '.txt': 'text/plain; charset=utf-8', '.glb': 'model/gltf-binary', '.gltf': 'model/gltf+json', '.zip': 'application/zip',

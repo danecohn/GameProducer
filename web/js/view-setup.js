@@ -36,7 +36,7 @@ export function renderSetup(root, onDone) {
   keyInput.id = 'k';
 
   clear(root).append(h('div', { class: 'page' },
-    h('div', { class: 'hero' }, h('img', { class: 'mark', src: '/assets/logo.png', alt: 'AltStack' }), h('h1', null, 'Make a game with a whole studio'), h('p', null, 'You are the Producer. Tell Director what you want; a team of AI specialists builds it with AltStack Engine, Render, Sprite and Box, and checks in with you along the way.')),
+    h('div', { class: 'hero' }, h('img', { class: 'mark', src: '/assets/logo.png', alt: 'Cohnsoft' }), h('h1', null, 'Make a game with a whole studio'), h('p', null, 'You are the Producer. Tell Director what you want; a team of AI specialists builds it with Cohnsoft Engine, Render, Sprite and Box, and checks in with you along the way.')),
     h('div', { class: 'card', style: { maxWidth: '560px', margin: '0 auto' } }, h('h2', null, 'Plug in your key'), h('p', { class: 'muted', style: { margin: '2px 0 16px' } }, 'Step one of one.'), form),
     h('div', { class: 'team-strip', 'aria-label': 'The team' }, Object.values(AGENTS).map((a) => h('span', { class: 'mini' }, h('span', { class: 'avatar', style: { '--c': a.color, width: '22px', height: '22px', fontSize: '11px' } }, a.name[0]), a.name)))));
 }

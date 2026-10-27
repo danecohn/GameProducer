@@ -1,11 +1,11 @@
-# AltStack Game Producer
+# Cohnsoft Game Producer
 
 <!-- artemis-publisher:start -->
-<img src="brand/artemis/artemis-wordmark.svg" alt="Artemis Softworks LLC" width="340">
+<img src="web/brand/cohnsoft/logos/mark/cohnsoft-mark.svg" alt="Cohnsoft" width="340">
 
-**A product of Artemis Softworks LLC.** Founded by **Demetria Althea Cohn**.
+**A product of Cohnsoft.** Founded by **Demetria Althea Cohn**.
 
-Companion software for macOS, thoughtfully available for Windows and Linux. See the [Artemis identity and design system](brand/artemis/BRAND.md). Platform availability varies by product and release.
+Companion software for macOS, thoughtfully available for Windows and Linux. See the [Cohnsoft identity and design system](web/brand/cohnsoft/BRAND.md). Platform availability varies by product and release.
 <!-- artemis-publisher:end -->
 
 
@@ -54,7 +54,7 @@ You stay in control: questions and approvals appear as cards, you can add notes 
 bin/            CLI
 src/            server, crew (orchestrator), agents (loop, prompts, tools), llm (Anthropic, OpenAI, demo), studios (adapters), projects
 studio/         render_worker.py: the headless Blender worker
-vendor/         pinned, headless parts of AltStack Engine, Render, Sprite, Box  (scripts/sync-vendor.sh)
+vendor/         pinned, headless parts of Cohnsoft Engine, Render, Sprite, Box  (scripts/sync-vendor.sh)
 web/            the UI (no build step)
 test/           node:test suite
 ```

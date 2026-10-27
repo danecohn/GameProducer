@@ -50,7 +50,7 @@ export function renderHome(root, { openProject, openSettings }) {
   if (!t.godot.found || !t.blender.found) tools.append(h('button', { class: 'btn small', onclick: openSettings }, icon('wrench', 13), 'Set up tools'));
 
   clear(root).append(h('div', { class: 'page' },
-    h('div', { class: 'hero' }, h('img', { class: 'mark', src: '/assets/logo.png', alt: 'GameProducer' }), h('h1', null, 'What are we making?'), h('p', {class:'maker-credit'}, 'GAMEPRODUCER · BY ARTEMIS SOFTWORKS LLC'), h('p', null, 'Describe it. Director plans it, the team builds it, and you steer.')),
+    h('div', { class: 'hero' }, h('img', { class: 'mark', src: '/assets/logo.png', alt: 'GameProducer' }), h('h1', null, 'What are we making?'), h('p', {class:'maker-credit'}, 'COHNSOFT GAME PRODUCER · A PRODUCT OF COHNSOFT'), h('p', null, 'Describe it. Director plans it, the team builds it, and you steer.')),
     h('div', { class: 'card' }, form, h('div', { style: { marginTop: '14px' } }, tools)),
     h('div', { class: 'card', id: 'recent' }, h('h2', null, 'Your games'), list)));
 

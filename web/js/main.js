@@ -19,9 +19,9 @@ async function route() {
   resetSubs();
   S.projectId = null;
   const m = /^#\/g\/([a-z0-9-]+)$/.exec(location.hash);
-  try { await loadStatus(); } catch (e) { clear(root).append(h('div', { class: 'page' }, h('div', { class: 'err' }, 'Could not reach Game Producer: ' + e.message))); return; }
+  try { await loadStatus(); } catch (e) { clear(root).append(h('div', { class: 'page' }, h('div', { class: 'err' }, 'Could not reach Cohnsoft Game Producer: ' + e.message))); return; }
   if (!S.status.key.configured) return renderSetup(root, async () => { await route(); });
-  if (!m) { document.title = 'Game Producer · AltStack'; return renderHome(root, { openProject: (id) => { location.hash = '#/g/' + id; }, openSettings: () => showSettings({ onKeyChange: route }) }); }
+  if (!m) { document.title = 'Cohnsoft Game Producer · Cohnsoft'; return renderHome(root, { openProject: (id) => { location.hash = '#/g/' + id; }, openSettings: () => showSettings({ onKeyChange: route }) }); }
   await openProject(m[1]);
 }
 
@@ -34,7 +34,7 @@ async function openProject(id) {
   S.inv = boot.inventory; S.bible = boot.bible; S.running = { director: boot.runs.includes('director'), sking: boot.runs.includes('sking') };
   S.channel = 'director'; S.tab = 'assets'; S.pane = 'chat'; S.live = 'live'; S.open = new Set(); S.bibleDoc = null;
   for (const c of S.tl.contracts.values()) if (c.status === 'running' || c.status === 'queued') S.open.add(c.id);
-  document.title = S.project.name + ' · Game Producer';
+  document.title = S.project.name + ' · Cohnsoft Game Producer';
   renderStudio(root, { goHome: () => { location.hash = ''; }, openSettings: () => showSettings({ onKeyChange: route }) });
   closeStream = stream(id, boot.lastSeq, handle, (s) => { if (S.live !== s) { S.live = s; schedule('menubar'); } });
 }

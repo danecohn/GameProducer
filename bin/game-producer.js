@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// AltStack Game Producer command line.
+// Cohnsoft Game Producer command line.
 //   game-producer [start] [--port N] [--no-open]   run the studio and open it in your browser
 //   game-producer demo                            same, with the scripted demo crew (no API key, no spend)
 //   game-producer doctor                          check what is installed
@@ -35,7 +35,7 @@ async function main() {
     const t = await toolchain.all(true);
     const k = llm.describe();
     const line = (name, s, note) => console.log((s ? '  ok   ' : '  --   ') + name.padEnd(8) + (note || ''));
-    console.log('AltStack Game Producer ' + config.VERSION + '  (data: ' + config.HOME + ')');
+    console.log('Cohnsoft Game Producer ' + config.VERSION + '  (data: ' + config.HOME + ')');
     line('node', true, process.version);
     line('key', k.configured, k.configured ? k.provider + ' ' + k.hint + ' (' + k.source + ')' : 'not set: add it in Settings, or set GP_PROVIDER and GP_API_KEY');
     line('godot', t.godot.found, t.godot.found ? t.godot.version + '  ' + t.godot.path : 'Forge cannot build or playtest. Run: game-producer install godot');
@@ -61,7 +61,7 @@ async function main() {
   const app = await listen();
   const host = app.mode.host === '0.0.0.0' ? 'localhost' : app.mode.host === '::1' ? '[::1]' : app.mode.host;
   const url = 'http://' + (app.mode.hosted ? host : 'localhost') + ':' + app.port + '/';
-  console.log('AltStack Game Producer ' + config.VERSION);
+  console.log('Cohnsoft Game Producer ' + config.VERSION);
   console.log(app.mode.hosted ? '  hosted mode, listening on ' + app.mode.host + ':' + app.port + ' (access token required)' : '  open ' + url);
   console.log('  projects: ' + config.paths.projects);
   if (cmd === 'demo') console.log('  demo crew: scripted, no AI and no API key');

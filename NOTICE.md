@@ -1,9 +1,9 @@
 # Notices
 
-AltStack Game Producer is licensed GPL-3.0-only (see LICENSE).
+Cohnsoft Game Producer is licensed GPL-3.0-only (see LICENSE).
 
 It bundles, under `vendor/`, headless parts of four AltStack tools (commits pinned in `vendor/VENDOR.json`):
-AltStack Engine, Render, Sprite and Box, each GPL-3.0-only with its own NOTICE files copied alongside.
+Cohnsoft Engine, Render, Sprite and Box, each GPL-3.0-only with its own NOTICE files copied alongside.
 
 Third-party software they use:
 - **Godot Engine** (MIT). Downloaded on request from godotengine.org builds; not bundled. "Godot" is a trademark of the Godot Foundation; not affiliated or endorsed.

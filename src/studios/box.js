@@ -1,5 +1,5 @@
 'use strict';
-// AltStack Box, headless. Noteie drives BeepBox's real Song/Synth classes through the vendored composer tools.
+// Cohnsoft Box, headless. Noteie drives BeepBox's real Song/Synth classes through the vendored composer tools.
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
