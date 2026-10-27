@@ -1,3 +1,4 @@
+const webBase=document.querySelector('meta[name="vigil-base"]')?.content||'';
 // Tiny DOM helpers: h() builds elements, md() renders the small subset of Markdown the bible uses (safely).
 
 export function h(tag, attrs, ...kids) {
@@ -10,7 +11,7 @@ export function h(tag, attrs, ...kids) {
       else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2).toLowerCase(), v);
       else if (k === 'html') el.innerHTML = v;                       // only ever used with markup produced by this file
       else if (v === true) el.setAttribute(k, '');
-      else el.setAttribute(k, v);
+      else el.setAttribute(k, ['src','href'].includes(k)&&typeof v==='string'&&v.startsWith('/')&&!v.startsWith('//')&&!v.startsWith(webBase+'/') ? webBase+v : v);
     }
   }
   add(el, kids);

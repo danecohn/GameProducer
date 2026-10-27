@@ -194,3 +194,15 @@ test('downloads: only installers that have a checksum are offered, and the page 
   await new Promise((r) => offline.server.listen(0, '127.0.0.1', r)); offline.port = offline.server.address().port;
   try { assert.deepEqual((await request(offline, 'GET', '/api/downloads', { headers: { host: 'localhost:' + offline.port } })).json, { published: false, assets: {} }); } finally { await offline.close(); }
 });
+
+test('hosted studio base keeps login, assets, API and download routes under its path',async()=>{
+ const app=await listen({mode:{host:'127.0.0.1',port:0,hosted:true},accessToken:'path-test-token',basePath:'/studio'});
+ try{
+  let r=await request(app,'GET','/studio/');assert.equal(r.status,302);assert.equal(r.headers.location,'/studio/login.html');
+  r=await request(app,'GET','/studio/login.html');assert.equal(r.status,200);assert.match(r.text,/name="vigil-base" content="\/studio"/);assert.match(r.text,/src="\/studio\/login.js"/);
+  r=await request(app,'POST','/studio/api/login',{body:{token:'path-test-token'},headers:{origin:'http://127.0.0.1:'+app.port}});assert.equal(r.status,200);const cookie=r.headers['set-cookie'][0].split(';')[0];
+  r=await request(app,'GET','/studio/',{headers:{cookie}});assert.equal(r.status,200);assert.match(r.text,/src="\/studio\/js\/main.js"/);
+  r=await request(app,'GET','/studio/api/projects',{headers:{cookie}});assert.equal(r.status,200);assert.ok(Array.isArray(r.json.projects));
+  r=await request(app,'POST','/studio/api/logout',{headers:{cookie,origin:'https://evil.example'}});assert.equal(r.status,403);
+ }finally{await app.close()}
+});

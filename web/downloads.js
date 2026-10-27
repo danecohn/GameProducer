@@ -1,3 +1,4 @@
+const webBase=document.querySelector('meta[name="vigil-base"]')?.content||'';
 // Renders the six desktop downloads from /api/downloads. A build with no published installer (and checksum) is shown as "not published yet", never as a dead link.
 (async () => {
   const OS = [
@@ -8,7 +9,7 @@
   const ua = navigator.userAgent || '';
   const mine = /Mac/i.test(ua) ? 'mac' : /Win/i.test(ua) ? 'win' : /Linux|X11/i.test(ua) ? 'linux' : '';
   let info = { published: false, assets: {} };
-  try { info = await (await fetch('/api/downloads')).json(); } catch (e) { /* offline */ }
+  try { info = await (await fetch(webBase+'/api/downloads')).json(); } catch (e) { /* offline */ }
   const el = (tag, attrs, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs || {})) { if (k === 'class') n.className = v; else n.setAttribute(k, v); } for (const c of kids) n.append(c); return n; };
   const grid = document.getElementById('grid');
   for (const [os, label, arches] of OS) {
