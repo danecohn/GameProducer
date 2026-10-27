@@ -5,7 +5,7 @@ on:
   push:
     tags: ['v*']
     branches: [main]
-    paths: ['package.json', '.github/workflows/release.yml']
+    paths: ['package.json', '.github/workflows/release.yml', 'scripts/smoke-packaged.js']
   workflow_dispatch:
     inputs:
       publish:
