@@ -300,7 +300,7 @@ function createApp(opts) {
   });
 
   route('POST', new RegExp(P.source + '/play$'), async (req, res, m) => {
-    if (hosted) return fail(res, 403, 'Playing is only available when Game Producer runs on your own computer. Download the Godot project instead.');
+    if (hosted) return fail(res, 403, 'Playing is only available when Cohnsoft Game Producer runs on your own computer. Download the Godot project instead.');
     const crew = crewFor(m[1]);
     const g = await toolchain.status('godot');
     if (!g.found) return fail(res, 400, g.hint, 'godot_missing');
@@ -331,7 +331,7 @@ function createApp(opts) {
       return res.end();
     }
     if (p.startsWith('/api/')) {
-      if (!hosted && !auth.authed(req)) return fail(res, 401, 'Open Game Producer from its own page (reload the tab).', 'session');
+      if (!hosted && !auth.authed(req)) return fail(res, 401, 'Open Cohnsoft Game Producer from its own page (reload the tab).', 'session');
       for (const r of routes) {
         if (r.method !== req.method) continue;
         const m = r.re.exec(p);

@@ -1,7 +1,7 @@
 {
   "name": "altstack-game-producer",
-  "version": "0.1.4",
-  "description": "AltStack Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive AltStack Engine, Render, Sprite and Box.",
+  "version": "0.1.5",
+  "description": "Cohnsoft Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive Cohnsoft Engine, Render, Sprite and Box.",
   "license": "GPL-3.0-only",
   "private": true,
   "bin": {
@@ -21,17 +21,17 @@
     "package": "electron-builder --publish never"
   },
   "main": "desktop/main.js",
-  "author": "Artemis Softworks LLC",
+  "author": "Cohnsoft",
   "homepage": "https://github.com/danecohn/GameProducer",
-  "productName": "AltStack Game Producer",
+  "productName": "Cohnsoft Game Producer",
   "devDependencies": {
     "electron": "44.9.3",
     "electron-builder": "26.17.0"
   },
   "build": {
     "appId": "org.altstack.gameproducer",
-    "productName": "AltStack Game Producer",
-    "copyright": "Copyright \u00a9 2026 Artemis Softworks LLC",
+    "productName": "Cohnsoft Game Producer",
+    "copyright": "Copyright \u00a9 2026 Cohnsoft",
     "directories": {
       "output": "release"
     },
@@ -80,7 +80,7 @@
       ],
       "icon": "assets/logo.png",
       "category": "Game",
-      "maintainer": "Artemis Softworks LLC"
+      "maintainer": "Cohnsoft"
     }
   }
 }

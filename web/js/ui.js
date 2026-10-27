@@ -9,7 +9,7 @@ export function avatar(id, size) {
   const a = AGENTS[id] || { name: '?', color: '#888' };
   const el = h('span', { class: 'avatar' + (size === 'lg' ? ' lg' : ''), style: { '--c': a.color }, title: a.name + (a.title ? ', ' + a.title : '') });
   if (id === 'director') el.append(h('img', { src: '/assets/logo.png', alt: '' }));
-  else if ({forge:'engine',molder:'render',palette:'sprite',noteie:'box',sking:'office'}[id]) el.append(h('img', {src:'/assets/studios/'+({forge:'engine',molder:'render',palette:'sprite',noteie:'box',sking:'office'}[id])+'.webp',alt:''}));
+  else if ({forge:'engine',molder:'render',palette:'sprite',noteie:'box',sking:'office'}[id]) el.append(h('img', {src:'/assets/studios/'+({forge:'engine',molder:'render',palette:'sprite',noteie:'box',sking:'office'}[id])+'.png',alt:''}));
   else el.append(a.name.slice(0, 1));
   return el;
 }

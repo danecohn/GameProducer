@@ -1,4 +1,4 @@
-# AltStack Game Producer, hosted image (Railway or any container host).
+# Cohnsoft Game Producer, hosted image (Railway or any container host).
 # Includes Godot (Forge) built in. Blender (Molder) is optional because it adds ~1 GB: build with --build-arg WITH_BLENDER=1.
 FROM node:22-bookworm-slim
 

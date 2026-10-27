@@ -26,7 +26,7 @@ export function renderStudio(root, { goHome, openSettings }) {
     const waiting = S.tl.pending.size;
     const busy = S.running.director || S.running.sking || Object.values(S.statuses).some((s) => s && s.status === 'working');
     fill(menubar, 
-      h('button', { class: 'brand', onclick: goHome, 'aria-label': 'All games' }, h('img', { src: '/assets/logo.png', alt: '' }), h('span', null, 'GameProducer', h('small', {class:'maker'}, 'ARTEMIS SOFTWORKS'))),
+      h('button', { class: 'brand', onclick: goHome, 'aria-label': 'All games' }, h('img', { src: '/assets/logo.png', alt: '' }), h('span', null, 'GameProducer', h('small', {class:'maker'}, 'COHNSOFT'))),
       h('span', { class: 'faint' }, '/'),
       h('button', { class: 'project-name btn ghost small', title: 'Rename this game', onclick: renameProject }, S.project.name),
       h('span', { class: 'grow' }),
@@ -40,7 +40,7 @@ export function renderStudio(root, { goHome, openSettings }) {
   async function renameProject() {
     const name = prompt('Rename this game', S.project.name);
     if (!name || !name.trim() || name.trim() === S.project.name) return;
-    try { const out = await api('PATCH', '/api/projects/' + pid, { name: name.trim() }); S.project = out.project; document.title = S.project.name + ' · Game Producer'; schedule('menubar'); } catch (e) { toast(e.message, true); }
+    try { const out = await api('PATCH', '/api/projects/' + pid, { name: name.trim() }); S.project = out.project; document.title = S.project.name + ' · Cohnsoft Game Producer'; schedule('menubar'); } catch (e) { toast(e.message, true); }
   }
   async function stopAll() { try { await api('POST', '/api/projects/' + pid + '/stop'); } catch (e) { toast(e.message, true); } }
   function jumpToDecision() {
@@ -290,7 +290,7 @@ export function renderStudio(root, { goHome, openSettings }) {
     const i = g.info, r = i.recipe;
     const pt = i.last_playtest;
     const exportBtn = h('button', { class: 'btn', disabled: !i.project_exists, onclick: async () => { exportBtn.disabled = true; try { await api('POST', '/api/projects/' + pid + '/export'); toast('Project zipped'); drawGame(); } catch (e) { toast(e.message, true); exportBtn.disabled = false; } } }, icon('download', 14), 'Zip the Godot project');
-    const playBtn = h('button', { class: 'btn primary', disabled: !i.assembled || !g.canPlay || !i.godot.found, title: !g.canPlay ? 'Available when Game Producer runs on your computer' : !i.godot.found ? 'Godot is not installed' : '', onclick: async () => { try { await api('POST', '/api/projects/' + pid + '/play'); toast('Launching the game…'); } catch (e) { toast(e.message, true); } } }, icon('play', 14), 'Play');
+    const playBtn = h('button', { class: 'btn primary', disabled: !i.assembled || !g.canPlay || !i.godot.found, title: !g.canPlay ? 'Available when Cohnsoft Game Producer runs on your computer' : !i.godot.found ? 'Godot is not installed' : '', onclick: async () => { try { await api('POST', '/api/projects/' + pid + '/play'); toast('Launching the game…'); } catch (e) { toast(e.message, true); } } }, icon('play', 14), 'Play');
     fill(pane, 
       h('div', { class: 'status-card' }, h('div', { class: 'row', style: { justifyContent: 'space-between' } }, h('b', null, r ? r.name : 'No game built yet'), r ? h('span', { class: 'chip ' + (i.assembled ? 'ok' : 'warn') }, i.assembled ? 'assembled' : 'not assembled') : null),
         r ? h('dl', { class: 'kv', style: { marginTop: '10px' } }, h('dt', null, 'Genre'), h('dd', null, r.genre), h('dt', null, 'Entities'), h('dd', null, r.entities.join(', ')), h('dt', null, 'Levels'), h('dd', null, r.levels.join(', ') || 'none'), h('dt', null, 'Recipe'), h('dd', null, r.valid ? 'valid' : 'has errors: ' + r.issues.join('; ')), h('dt', null, 'Last playtest'), h('dd', null, pt ? (pt.ok ? 'clean' : pt.errors + ' error(s)') + ' · ' + pt.state : 'not run yet'))

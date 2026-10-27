@@ -1,5 +1,5 @@
 'use strict';
-// AltStack Game Producer desktop app: the same server and UI as the CLI, running inside Electron.
+// Cohnsoft Game Producer desktop app: the same server and UI as the CLI, running inside Electron.
 // The server listens on a random loopback port, only this window holds its session cookie, and nothing is exposed on the network.
 const fs = require('fs');
 const path = require('path');
@@ -15,6 +15,7 @@ const smokeOut = smokeIdx >= 0 ? process.argv[smokeIdx + 1] : null;
 if (smokeOut) app.disableHardwareAcceleration();   // CI machines have no GPU; a hidden window cannot be captured through one
 if (smokeOut) process.env.GP_HOME = process.env.GP_HOME || fs.mkdtempSync(path.join(require('os').tmpdir(), 'gp-smoke-'));
 
+app.setPath('userData',path.join(app.getPath('appData'),'AltStack Game Producer'));
 let server = null;
 let win = null;
 
@@ -42,7 +43,7 @@ function buildMenu(origin) {
     { role: 'editMenu' },
     { label: 'View', submenu: [{ role: 'reload' }, { role: 'togglefullscreen' }, { type: 'separator' }, { role: 'resetZoom' }, { role: 'zoomIn' }, { role: 'zoomOut' }] },
     { role: 'windowMenu' },
-    { label: 'Help', submenu: [{ label: 'AltStack Game Producer on GitHub', click: () => shell.openExternal('https://github.com/danecohn/GameProducer') }] },
+    { label: 'Help', submenu: [{ label: 'Cohnsoft Game Producer on GitHub', click: () => shell.openExternal('https://github.com/danecohn/GameProducer') }] },
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
@@ -50,7 +51,7 @@ function buildMenu(origin) {
 async function createWindow(origin) {
   win = new BrowserWindow({
     width: 1440, height: 900, minWidth: 900, minHeight: 600, show: !smokeOut,
-    title: 'AltStack Game Producer', icon: path.join(__dirname, '..', 'assets', 'logo.png'), backgroundColor: '#f2f6fb',
+    title: 'Cohnsoft Game Producer', icon: path.join(__dirname, '..', 'assets', 'logo.png'), backgroundColor: '#f2f6fb',
     webPreferences: { contextIsolation: true, sandbox: true, nodeIntegration: false, spellcheck: false },
   });
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https?:/i.test(url)) shell.openExternal(url); return { action: 'deny' }; });
@@ -91,7 +92,7 @@ else {
     } catch (e) {
       console.error(e);
       if (smokeOut) return app.exit(1);
-      dialog.showErrorBox('AltStack Game Producer could not start', String((e && e.message) || e));
+      dialog.showErrorBox('Cohnsoft Game Producer could not start', String((e && e.message) || e));
       app.exit(1);
     }
   });

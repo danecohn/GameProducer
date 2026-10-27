@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/danecohn/cohnsoftassets",
+  "commit": "752e894f90f1e58e62ae466352cb03c8bfd7d703",
+  "sha256": {
+    "BRAND.md": "aeb1b668b7db3debd84af7b04652c292dd02447331ac8fff9030072f62d3cced",
+    "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "tokens.json": "2fc6c44e8642adb1064a627894ce82eb08a1f61d6e10cdddad5fab59a3e5306f",
+    "css/cohnsans.css": "5e0f1e4f664e84be0d531e495ecd086af37f8403c759272fabbcdc38278dffa1",
+    "css/goldengate.css": "0e4e0318767bd9567d733cd88e4446ff27a74268e2b637b1083cd0456d82fabb",
+    "fonts/OFL.txt": "c985424e4b443932ae3d7d306f39a3f20fcdbdc747c743fbf9bf28d8aeea134c",
+    "fonts/CohnSans-Regular.woff2": "45bae0e6d29885e8b8fa94b1757bd9faff983dccf1dda1526eb9806d4b57f889",
+    "fonts/CohnSans-Bold.woff2": "e75127d5bbd04bec2d7771f20b026c3785e0a061cc9055f73fe70f825278e0ea",
+    "logos/mark/cohnsoft-mark.svg": "8d479ee63e4c51a2531c66c390d835fbe75836c6abe65ec64a718e2d0c1e3c66"
+  }
+}

@@ -1,5 +1,5 @@
 'use strict';
-// AltStack Render, headless. Molder drives the real Render add-on tools inside a background Blender process.
+// Cohnsoft Render, headless. Molder drives the real Render add-on tools inside a background Blender process.
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
