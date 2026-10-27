@@ -33,6 +33,8 @@ function createApp(opts) {
   opts = opts || {};
   const mode = opts.mode || config.serverMode();
   const hosted = !!mode.hosted;
+  const base = hosted ? String(opts.basePath || process.env.PUBLIC_BASE_PATH || '').replace(/\/$/, '') : '';
+  if (base && !/^\/[a-z][a-z0-9-]*$/.test(base)) throw new Error('Invalid PUBLIC_BASE_PATH');
   const accessToken = opts.accessToken !== undefined ? opts.accessToken : process.env.GP_ACCESS_TOKEN;
   if (hosted && !accessToken) throw new Error('Refusing to listen on a public interface without GP_ACCESS_TOKEN. Set it to a long random string.');
   const auth = new Auth({ hosted, accessToken, port: mode.port });
@@ -76,6 +78,7 @@ function createApp(opts) {
     if (/^(index|login|downloads)\.html$/.test(rel)) headers['content-security-policy'] = PAGE_CSP;
     if (rel === 'index.html' && !hosted) headers['set-cookie'] = auth.issueLocal(req);
     res.writeHead(200, headers);
+    if(base && /\.html$/.test(rel)){let html=fs.readFileSync(file,'utf8').replace(/(href|src|action)="\/(?!\/)/g,'$1="'+base+'/').replace('<head>','<head><meta name="vigil-base" content="'+base+'">');res.end(html);return;}
     fs.createReadStream(file).pipe(res);
   }
 
@@ -313,7 +316,7 @@ function createApp(opts) {
   // ------------------------------------------------------------ dispatch
   async function handle(req, res) {
     const url = new URL(req.url, 'http://x');
-    const p = url.pathname;
+    const p = base && (url.pathname===base||url.pathname.startsWith(base+'/')) ? url.pathname.slice(base.length)||'/' : url.pathname;
     if (!auth.hostOk(req)) return fail(res, 403, 'unexpected Host header');
     if (req.method !== 'GET' && req.method !== 'HEAD' && !auth.originOk(req)) return fail(res, 403, 'cross-origin request refused');
 
@@ -327,7 +330,7 @@ function createApp(opts) {
     if (hosted && !auth.authed(req)) {
       if (p === '/login.html' || p === '/login.js' || p === '/downloads.html' || p === '/downloads.js' || p === '/style.css' || p.startsWith('/assets/')) return serveStatic(req, res, p);
       if (p.startsWith('/api/')) return fail(res, 401, 'login required', 'login');
-      res.writeHead(302, { location: '/login.html', ...SECURITY_HEADERS });
+      res.writeHead(302, { location: base+'/login.html', ...SECURITY_HEADERS });
       return res.end();
     }
     if (p.startsWith('/api/')) {
