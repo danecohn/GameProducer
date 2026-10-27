@@ -8,7 +8,7 @@ const root = path.join(__dirname, '..');
 const src = path.join(root, 'release'), out = path.join(root, 'artifacts');
 fs.mkdirSync(out, { recursive: true });
 // electron-builder's ${arch} is x86_64 for Linux AppImages and aarch64 on some hosts; the published names are always x64 and arm64.
-const want = /^AltStackGameProducer-(mac|win|linux)-(arm64|aarch64|x64|x86_64|amd64)\.(dmg|exe|AppImage)$/;
+const want = /^AltStackGameProducer-(mac|win|linux)-(arm64|aarch64|x64|x86_64|amd64)\.(dmg|exe|AppImage|deb)$/;
 const canon = (f) => { const m = want.exec(f); return 'AltStackGameProducer-' + m[1] + '-' + (/arm64|aarch64/.test(m[2]) ? 'arm64' : 'x64') + '.' + m[3]; };
 const files = fs.readdirSync(src).filter((f) => want.test(f));
 if (!files.length) { console.error('no installers found in release/'); process.exit(1); }
