@@ -21,8 +21,8 @@ function find(re, root, depth) {
 function locatePackagedApp(root, platform = process.platform, product = require('../package.json').build.productName) {
   const escaped = product.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if (platform === 'darwin') { const bundle = find(new RegExp(escaped + '\\.app$'), root, 2); return bundle && path.join(bundle, 'Contents', 'MacOS', product); }
-  if (platform === 'win32') return find(new RegExp('win[^\\\\/]*unpacked[\\\\/]' + escaped + '\\.exe$'), root, 3);
-  return find(/linux[^/]*unpacked\/altstack-game-producer$/, root, 3);
+  if (platform === 'win32') return find(new RegExp('[\\\\/]' + escaped + '\\.exe$'), root, 3);
+  return find(/(?:linux[^/]*unpacked|opt\/[^/]+)\/altstack-game-producer$/, root, 4);
 }
 module.exports = { locatePackagedApp };
 if (require.main === module) {

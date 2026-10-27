@@ -6,6 +6,7 @@ on:
     tags: ['v*']
     branches: [main]
     paths: ['package.json', '.github/workflows/release.yml', 'scripts/smoke-packaged.js']
+  pull_request:
   workflow_dispatch:
     inputs:
       publish:
@@ -70,6 +71,24 @@ jobs:
         run: |
           if [ "$RUNNER_OS" = "Linux" ]; then sudo apt-get update && sudo apt-get install -y xvfb; fi
           node scripts/smoke-packaged.js
+      - name: Verify the installed Windows app
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $target = Join-Path $env:RUNNER_TEMP 'GameProducer-Installed'
+          $installer = Get-ChildItem release -Filter '*.exe' | Select-Object -First 1
+          $install = Start-Process $installer.FullName -ArgumentList @('/S', "/D=$target") -Wait -PassThru
+          if ($install.ExitCode -ne 0) { throw "Installer failed: $($install.ExitCode)" }
+          node scripts/smoke-packaged.js "$target"
+          if ($LASTEXITCODE -ne 0) { throw 'Installed application failed its smoke test' }
+      - name: Verify the Debian package payload
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          dpkg-deb --info release/*.deb
+          mkdir -p release/debian-payload
+          dpkg-deb --extract release/*.deb release/debian-payload
+          node scripts/smoke-packaged.js release/debian-payload
       - name: Checksums
         shell: bash
         run: node scripts/checksums.js
@@ -94,22 +113,22 @@ jobs:
           pattern: GameProducer-*
           path: dl
           merge-multiple: true
-      - name: Publish the six verified installers
+      - name: Publish verified installers
         run: |
           # upload-artifact keeps the folder layout (artifacts/..., release/smoke-*.png), so look for the installers wherever they landed
           mkdir -p out && find dl -type f -name 'AltStackGameProducer-*' -exec cp {} out/ \;
           ls -la out
-          test "$(ls out/*.sha256 | wc -l)" -eq 6
-          test "$(ls out | grep -v '\.sha256$' | wc -l)" -eq 6
-          for t in mac-arm64.dmg mac-x64.dmg win-x64.exe win-arm64.exe linux-x64.AppImage linux-arm64.AppImage; do test -s out/AltStackGameProducer-$t; done
+          test "$(ls out/*.sha256 | wc -l)" -eq 8
+          test "$(ls out | grep -v '\.sha256$' | wc -l)" -eq 8
+          for t in mac-arm64.dmg mac-x64.dmg win-x64.exe win-arm64.exe linux-x64.AppImage linux-arm64.AppImage linux-x64.deb linux-arm64.deb; do test -s out/AltStackGameProducer-$t; done
           VERSION=$(node -p "require('./package.json').version")
           TAG="${GITHUB_REF_NAME}"; case "$TAG" in v*) ;; *) TAG="v$VERSION" ;; esac
           {
-            echo "Cohnsoft Game Producer $VERSION. Every installer below was launched on its own platform before this release was published."
+            echo "VigilTech Game Producer $VERSION. Every installer below was launched on its own platform before this release was published."
             echo
-            if [ "$MAC_SIGNED" = "yes" ]; then echo "macOS builds are signed with a Developer ID and notarized by Apple."; else echo "macOS builds are not notarized yet: after downloading, approve the app once in System Settings > Privacy & Security > Open Anyway (or run: xattr -dr com.apple.quarantine \"/Applications/Cohnsoft Game Producer.app\")."; fi
-            echo "Developed and produced by Cohnsoft, founded by Demetria Althea Cohn. This release introduces the sculpted GameProducer icon and Companion studio interface."
+            if [ "$MAC_SIGNED" = "yes" ]; then echo "macOS builds are signed with a Developer ID and notarized by Apple."; else echo "macOS builds are not notarized yet: after downloading, approve the app once in System Settings > Privacy & Security > Open Anyway."; fi
+            echo "Developed and produced by VigilTech, founded by Demetria Althea Cohn. "
             echo "Verify a download with the .sha256 file next to it."
           } > notes.md
-          if gh release view "$TAG" >/dev/null 2>&1; then echo "This version is already published; retain its original verified installers."; exit 0; fi
-          gh release create "$TAG" out/* --target "$GITHUB_SHA" --title "Cohnsoft Game Producer $VERSION" --notes-file notes.md
+          if gh release view "$TAG" >/dev/null 2>&1; then echo "This version is already published; bump the version instead of replacing installers." >&2; exit 1; fi
+          gh release create "$TAG" out/* --target "$GITHUB_SHA" --title "VigilTech Game Producer $VERSION" --notes-file notes.md
