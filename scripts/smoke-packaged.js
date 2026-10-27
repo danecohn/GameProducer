@@ -18,10 +18,15 @@ function find(re, root, depth) {
   return null;
 }
 
-let bin;
-if (process.platform === 'darwin') bin = find(/AltStack Game Producer\.app$/, dir, 2) && path.join(find(/AltStack Game Producer\.app$/, dir, 2), 'Contents', 'MacOS', 'AltStack Game Producer');
-else if (process.platform === 'win32') bin = find(/win[^\\/]*unpacked[\\/]AltStack Game Producer\.exe$/, dir, 3);
-else bin = find(/linux[^/]*unpacked\/altstack-game-producer$/, dir, 3);
+function locatePackagedApp(root, platform = process.platform, product = require('../package.json').build.productName) {
+  const escaped = product.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (platform === 'darwin') { const bundle = find(new RegExp(escaped + '\\.app$'), root, 2); return bundle && path.join(bundle, 'Contents', 'MacOS', product); }
+  if (platform === 'win32') return find(new RegExp('win[^\\\\/]*unpacked[\\\\/]' + escaped + '\\.exe$'), root, 3);
+  return find(/linux[^/]*unpacked\/altstack-game-producer$/, root, 3);
+}
+module.exports = { locatePackagedApp };
+if (require.main === module) {
+const bin = locatePackagedApp(dir);
 if (!bin || !fs.existsSync(bin)) { console.error('no packaged app found under ' + dir); process.exit(2); }
 
 fs.rmSync(shot, { force: true });
@@ -36,3 +41,5 @@ if (r.error) { console.log('::error title=Packaged app did not start::' + r.erro
 if (r.status !== 0) { console.error('packaged app exited with ' + r.status + (r.signal ? ' (' + r.signal + ')' : '')); console.log('::error title=Packaged app failed its launch test::exit ' + r.status + (r.signal ? ' signal ' + r.signal : '') + ' :: ' + tail(r.stderr || r.stdout)); process.exit(1); }
 if (!fs.existsSync(shot) || fs.statSync(shot).size < 2000) { console.error('no screenshot was written'); console.log('::error title=Packaged app wrote no screenshot::' + tail(r.stderr || r.stdout)); process.exit(1); }
 console.log('PACKAGED SMOKE OK ' + shot + ' (' + fs.statSync(shot).size + ' bytes)');
+
+}
