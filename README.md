@@ -1,24 +1,24 @@
-# Cohnsoft Game Producer
+# VigilTech Game Producer
 
 <!-- artemis-publisher:start -->
-<img src="web/brand/cohnsoft/logos/mark/cohnsoft-mark.svg" alt="Cohnsoft" width="340">
+<img src="web/brand/vigiltech/logos/mark/vigiltech-mark.svg" alt="VigilTech" width="340">
 
-**A product of Cohnsoft.** Founded by **Demetria Althea Cohn**.
+**A product of VigilTech, vigiltech.org.** Founded by **Demetria Althea Cohn**.
 
-Companion software for macOS, thoughtfully available for Windows and Linux. See the [Cohnsoft identity and design system](web/brand/cohnsoft/BRAND.md). Platform availability varies by product and release.
+Companion software for macOS, thoughtfully available for Windows and Linux. See the [VigilTech identity and design system](web/brand/vigiltech/BRAND.md). Platform availability varies by product and release.
 <!-- artemis-publisher:end -->
 
 
-An agentic game studio in one app. **You are the Producer.** You describe the game; **Director** plans it, contracts a team of specialist agents, reviews what comes back and checks in with you; the team builds the game with the four AltStack tools, bundled together.
+An agentic game studio in one app. **You are the Producer.** You describe the game; **Director** plans it, contracts a team of specialist agents, reviews what comes back and checks in with you; the team builds the game with the four Vigil tools, bundled together.
 
 | Agent | Role | Drives |
 |---|---|---|
 | **Director** | Talks to you. Plans, contracts, reviews, reports. | the whole team |
 | **Sking** | Writer. Script, story, dialogue; keeps the project bible. You can also talk to Sking directly. | `bible/` |
-| **Forge** | Engine programmer. | AltStack **Engine** (Godot 4, game recipes, headless playtests) |
-| **Molder** | 3D artist. | AltStack **Render** (Blender) |
-| **Palette** | 2D artist. | AltStack **Sprite** (pixel art, sheets, animation) |
-| **Noteie** | Composer and sound designer. | AltStack **Box** (BeepBox chiptune, looping music, SFX) |
+| **Forge** | Engine programmer. | Vigil **Engine** (Godot 4, game recipes, headless playtests) |
+| **Molder** | 3D artist. | Vigil **Render** (Blender) |
+| **Palette** | 2D artist. | Vigil **Sprite** (pixel art, sheets, animation) |
+| **Noteie** | Composer and sound designer. | Vigil **Box** (BeepBox chiptune, looping music, SFX) |
 
 **One key runs everything.** Paste an OpenAI or Anthropic key once; Director and every specialist use it. It is stored on your machine (mode 0600), sent only to your provider, and never reaches the browser.
 
@@ -54,7 +54,7 @@ You stay in control: questions and approvals appear as cards, you can add notes 
 bin/            CLI
 src/            server, crew (orchestrator), agents (loop, prompts, tools), llm (Anthropic, OpenAI, demo), studios (adapters), projects
 studio/         render_worker.py: the headless Blender worker
-vendor/         pinned, headless parts of Cohnsoft Engine, Render, Sprite, Box  (scripts/sync-vendor.sh)
+vendor/         pinned, headless parts of Vigil Engine, Render, Sprite, Box  (scripts/sync-vendor.sh)
 web/            the UI (no build step)
 test/           node:test suite
 ```

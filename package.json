@@ -1,7 +1,7 @@
 {
   "name": "altstack-game-producer",
   "version": "0.1.5",
-  "description": "Cohnsoft Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive Cohnsoft Engine, Render, Sprite and Box.",
+  "description": "VigilTech Game Producer: an agentic game-making studio. You produce; Director and a team of agents drive Vigil Engine, Render, Sprite and Box.",
   "license": "GPL-3.0-only",
   "private": true,
   "bin": {
@@ -21,17 +21,17 @@
     "package": "electron-builder --publish never"
   },
   "main": "desktop/main.js",
-  "author": "Cohnsoft",
+  "author": "VigilTech",
   "homepage": "https://github.com/danecohn/GameProducer",
-  "productName": "Cohnsoft Game Producer",
+  "productName": "VigilTech Game Producer",
   "devDependencies": {
     "electron": "44.9.3",
     "electron-builder": "26.17.0"
   },
   "build": {
     "appId": "org.altstack.gameproducer",
-    "productName": "Cohnsoft Game Producer",
-    "copyright": "Copyright \u00a9 2026 Cohnsoft",
+    "productName": "VigilTech Game Producer",
+    "copyright": "Copyright \u00a9 2026 VigilTech",
     "directories": {
       "output": "release"
     },
@@ -80,7 +80,7 @@
       ],
       "icon": "assets/logo.png",
       "category": "Game",
-      "maintainer": "Cohnsoft"
+      "maintainer": "VigilTech"
     }
   }
 }

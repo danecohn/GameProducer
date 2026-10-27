@@ -1,4 +1,0 @@
-/* Cohn Sans: Cohnsoft's own typeface (fonts/). Load it, with a system fallback so text never waits on the network. */
-@font-face { font-family: "Cohn Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/CohnSans-Regular.woff2") format("woff2"), url("../fonts/CohnSans-Regular.ttf") format("truetype"); }
-@font-face { font-family: "Cohn Sans"; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/CohnSans-Bold.woff2") format("woff2"), url("../fonts/CohnSans-Bold.ttf") format("truetype"); }
-:root { --cs-font: "Cohn Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; --cs-font-system: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; --cs-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }

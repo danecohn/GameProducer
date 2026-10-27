@@ -1,5 +1,5 @@
 'use strict';
-// Cohnsoft Sprite, headless. Palette drives the real Sprite tool set (vendor/sprite) against an in-memory document.
+// Vigil Sprite, headless. Palette drives the real Sprite tool set (vendor/sprite) against an in-memory document.
 const fs = require('fs');
 const path = require('path');
 const { ToolError, safeName, confine, walk } = require('../util');

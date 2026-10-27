@@ -1,5 +1,5 @@
 'use strict';
-// Cohnsoft Engine, headless. Forge builds the game as a Godot 4 project through the vendored "game recipe" assembler,
+// Vigil Engine, headless. Forge builds the game as a Godot 4 project through the vendored "game recipe" assembler,
 // the Engine plugin's debug agent (scripted headless playtests) and plain GDScript files.
 const fs = require('fs');
 const path = require('path');

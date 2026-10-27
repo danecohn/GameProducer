@@ -43,7 +43,7 @@ export function openSettings({ onKeyChange }) {
           h('div', { class: 'row' }, h('input', { class: 'field', type: 'number', min: '0', step: '100000', value: String(settings.budgetTokens), style: { maxWidth: '200px' }, onchange: async (e) => { settings = await api('PUT', '/api/settings', { budgetTokens: Number(e.target.value) }); toast('Budget set to ' + fmtTokens(settings.budgetTokens) + ' tokens'); } }), h('span', { class: 'muted', style: { fontSize: '12.5px' } }, 'The team asks before going past it.'))),
       ]),
       section('Tools', toolRows(st)),
-      section('About', [h('p', { class: 'muted', style: { margin: 0 } }, 'Cohnsoft Game Producer ' + st.version + '. A product of Cohnsoft. Cohnsoft was founded by Demetria Althea Cohn. Godot (MIT), Blender (GPL) and BeepBox (MIT) are used under their own licences; see NOTICE.md. Not affiliated with or endorsed by those projects.')]),
+      section('About', [h('p', { class: 'muted', style: { margin: 0 } }, 'VigilTech Game Producer ' + st.version + '. A product of VigilTech, vigiltech.org. VigilTech was founded by Demetria Althea Cohn. Godot (MIT), Blender (GPL) and BeepBox (MIT) are used under their own licences; see NOTICE.md. Not affiliated with or endorsed by those projects.')]),
     );
   }
 

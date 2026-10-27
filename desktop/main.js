@@ -1,5 +1,5 @@
 'use strict';
-// Cohnsoft Game Producer desktop app: the same server and UI as the CLI, running inside Electron.
+// VigilTech Game Producer desktop app: the same server and UI as the CLI, running inside Electron.
 // The server listens on a random loopback port, only this window holds its session cookie, and nothing is exposed on the network.
 const fs = require('fs');
 const path = require('path');
@@ -43,7 +43,7 @@ function buildMenu(origin) {
     { role: 'editMenu' },
     { label: 'View', submenu: [{ role: 'reload' }, { role: 'togglefullscreen' }, { type: 'separator' }, { role: 'resetZoom' }, { role: 'zoomIn' }, { role: 'zoomOut' }] },
     { role: 'windowMenu' },
-    { label: 'Help', submenu: [{ label: 'Cohnsoft Game Producer on GitHub', click: () => shell.openExternal('https://github.com/danecohn/GameProducer') }] },
+    { label: 'Help', submenu: [{ label: 'VigilTech Game Producer on GitHub', click: () => shell.openExternal('https://github.com/danecohn/GameProducer') }] },
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
@@ -51,7 +51,7 @@ function buildMenu(origin) {
 async function createWindow(origin) {
   win = new BrowserWindow({
     width: 1440, height: 900, minWidth: 900, minHeight: 600, show: !smokeOut,
-    title: 'Cohnsoft Game Producer', icon: path.join(__dirname, '..', 'assets', 'logo.png'), backgroundColor: '#f2f6fb',
+    title: 'VigilTech Game Producer', icon: path.join(__dirname, '..', 'assets', 'logo.png'), backgroundColor: '#f6f1f4',
     webPreferences: { contextIsolation: true, sandbox: true, nodeIntegration: false, spellcheck: false },
   });
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https?:/i.test(url)) shell.openExternal(url); return { action: 'deny' }; });
@@ -92,7 +92,7 @@ else {
     } catch (e) {
       console.error(e);
       if (smokeOut) return app.exit(1);
-      dialog.showErrorBox('Cohnsoft Game Producer could not start', String((e && e.message) || e));
+      dialog.showErrorBox('VigilTech Game Producer could not start', String((e && e.message) || e));
       app.exit(1);
     }
   });

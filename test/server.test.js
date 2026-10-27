@@ -41,7 +41,7 @@ test.after(async () => { await app.close(); });
 test('local mode: the UI is served with a hardened header set and hands out a session cookie', async () => {
   const s = await session(app);
   assert.equal(s.page.status, 200);
-  assert.match(s.page.text, /<title>Cohnsoft Game Producer/);
+  assert.match(s.page.text, /<title>VigilTech Game Producer/);
   assert.match(String(s.page.headers['set-cookie']), /HttpOnly; SameSite=Strict/);
   assert.match(s.page.headers['content-security-policy'], /default-src 'self'/);
   assert.equal(s.page.headers['x-frame-options'], 'DENY');
@@ -187,7 +187,7 @@ test('downloads: only installers that have a checksum are offered, and the page 
     assert.deepEqual(Object.keys(r.json.assets), ['mac-arm64']);
     assert.equal(r.json.assets['mac-arm64'].sha256_url, 'https://dl/mac-arm64.dmg.sha256');
     const page = await request(a, 'GET', '/downloads.html', { headers: { host: 'x.example' } });
-    assert.equal(page.status, 200); assert.match(page.text, /Get Cohnsoft Game Producer/); assert.match(page.headers['content-security-policy'], /script-src 'self'/);
+    assert.equal(page.status, 200); assert.match(page.text, /Get VigilTech Game Producer/); assert.match(page.headers['content-security-policy'], /script-src 'self'/);
     assert.equal((await request(a, 'GET', '/index.html', { headers: { host: 'x.example' } })).status, 302);
   } finally { await a.close(); }
   const offline = createApp({ mode: { host: '127.0.0.1', port: 0, hosted: false }, provider: mock.create(), fetchImpl: async () => { throw new Error('offline'); } });
